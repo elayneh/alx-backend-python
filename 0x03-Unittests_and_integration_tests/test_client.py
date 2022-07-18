@@ -30,24 +30,24 @@ class TestGithubOrgClient(unittest.TestCase):
             GithubOrgClient,
             "org",
             new_callable=PropertyMock,
-                return_value={"repos_url": "thisSample"}) as mock_get:
-            test_json = {"repos_url": "thisSample"}
+                return_value={"repos_url": "ALX"}) as mock_get:
+            test_json = {"repos_url": "ALX"}
             test_client = GithubOrgClient(test_json.get("repos_url"))
             test_return = test_client._public_repos_url
             mock_get.assert_called_once
             self.assertEqual(test_return,
                              mock_get.return_value.get("repos_url"))
 
-    @patch("client.get_json", return_value=[{"name": "thisSample"}])
+    @patch("client.get_json", return_value={"name": "ALX"})
     def test_public_repos(self, mock_get):
         """ to unit-test GithubOrgClient.public_repos """
         with patch.object(GithubOrgClient,
                           "_public_repos_url",
                           new_callable=PropertyMock,
                           return_value="https://api.github.com/") as mock_pub:
-            test_client = GithubOrgClient("thisSample")
+            test_client = GithubOrgClient("ALX")
             test_return = test_client.public_repos()
-            self.assertEqual(test_return, ["thisSample"])
+            self.assertEqual(test_return, ["ALX"])
             mock_get.assert_called_once
             mock_pub.assert_called_once
 
@@ -58,9 +58,9 @@ class TestGithubOrgClient(unittest.TestCase):
     ])
     def test_has_license(self, repo, license_key, expected_return):
         """ to unit-test GithubOrgClient.has_license """
-        test_client = GithubOrgClient("thisSample")
+        test_client = GithubOrgClient("ALX")
         test_return = test_client.has_license(repo, license_key)
-        self.assertEqual(expected_return, test_return)
+        self.assertEqual(test_return, expected_return)
 
 
 @parameterized_class(
@@ -83,10 +83,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     def test_public_repos(self):
         """ method to test GithubOrgClient.public_repos """
-        test_class = GithubOrgClient("thisSample")
+        test_class = GithubOrgClient("ALX")
         assert True
 
     def test_public_repos_with_license(self):
         """ method to test the public_repos with the argument license """
-        test_class = GithubOrgClient("thisSample")
+        test_class = GithubOrgClient("ALX")
         assert True
