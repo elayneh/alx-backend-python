@@ -45,7 +45,7 @@ class TestGithubOrgClient(unittest.TestCase):
                           "_public_repos_url",
                           new_callable=PropertyMock,
                           return_value="https://api.github.com/") as mock_pub:
-            test_client = GithubOrgClient("hoberton")
+            test_client = GithubOrgClient("thisSample")
             test_return = test_client.public_repos()
             self.assertEqual(test_return, ["thisSample"])
             mock_get.assert_called_once
