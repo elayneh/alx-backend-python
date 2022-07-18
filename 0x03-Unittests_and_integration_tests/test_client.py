@@ -15,7 +15,7 @@ class TestGithubOrgClient(unittest.TestCase):
     @parameterized.expand([
         ("google"),
         ("abc"),
-        ])
+    ])
     @patch("client.get_json", return_value={"payload": True})
     def test_org(self, org_name, mock_get):
         """ test that GithubOrgClient.org returns the correct value """
@@ -26,10 +26,11 @@ class TestGithubOrgClient(unittest.TestCase):
 
     def test_public_repos_url(self):
         """ to unit-test GithubOrgClient._public_repos_url """
-        with patch.object(GithubOrgClient,
-                          "org",
-                          new_callable=PropertyMock,
-                          return_value={"repos_url": "thisSample"}) as mock_get:
+        with patch.object(
+            GithubOrgClient,
+            "org",
+            new_callable=PropertyMock,
+                return_value={"repos_url": "thisSample"}) as mock_get:
             test_json = {"repos_url": "thisSample"}
             test_client = GithubOrgClient(test_json.get("repos_url"))
             test_return = test_client._public_repos_url
@@ -54,7 +55,7 @@ class TestGithubOrgClient(unittest.TestCase):
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),
-        ])
+    ])
     def test_has_license(self, repo, license_key, expected_return):
         """ to unit-test GithubOrgClient.has_license """
         test_client = GithubOrgClient("thisSample")
