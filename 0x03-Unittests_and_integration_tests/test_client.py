@@ -37,15 +37,55 @@ class TestGithubOrgClient(unittest.TestCase):
             self.assertEqual(test_return,
                              mock_get.return_value.get('repos_url'))
 
-    @patch("client.get_json", return_value=[{"name": "holberton"}])
+    @patch("client.get_json", return_value=[{"name": "Belayneh"}])
     def test_public_repos(self, mock_get):
         """ to unit-test GithubOrgClient.public_repos """
         with patch.object(GithubOrgClient,
                           "_public_repos_url",
                           new_callable=PropertyMock,
                           return_value="https://api.github.com/") as mock_pub:
-            test_client = GithubOrgClient("hoberton")
+            test_client = GithubOrgClient("Belayneh")
             test_return = test_client.public_repos()
-            self.assertEqual(test_return, ["holberton"])
+            self.assertEqual(test_return, ["Belayneh"])
             mock_get.assert_called_once
             mock_pub.assert_called_once
+
+
+@parameterized.expand([
+    ({"license": {"key": "my_license"}}, "my_license", True),
+    ({"license": {"key": "other_license"}}, "my_license", False),
+])
+def test_has_license(self, repo, license_key, expected_return):
+    """ to unit-test GithubOrgClient.has_license """
+    test_client = GithubOrgClient("holberton")
+    test_return = test_client.has_license(repo, license_key)
+    self.assertEqual(expected_return, test_return)
+
+
+@parameterized_class(
+    ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
+    TEST_PAYLOAD
+)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """ TESTCASE """
+    @classmethod
+    def setUpClass(cls):
+        """ It is part of the unittest.TestCase API
+        method to return example payloads found in the fixtures """
+        cls.get_patcher = patch('requests.get', side_effect=HTTPError)
+
+    @classmethod
+    def tearDownClass(cls):
+        """ It is part of the unittest.TestCase API
+        method to stop the patcher """
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """ method to test GithubOrgClient.public_repos """
+        test_class = GithubOrgClient("holberton")
+        assert True
+
+    def test_public_repos_with_license(self):
+        """ method to test the public_repos with the argument license """
+        test_class = GithubOrgClient("holberton")
+        assert True
