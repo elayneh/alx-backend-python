@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """ client testter """
 
-from http import client
-import imp
 import unittest
-from defer import return_value
 from parameterized import parameterized
 from urllib.error import HTTPError
 from unittest.mock import patch, PropertyMock, Mock
